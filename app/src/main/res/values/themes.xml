@@ -1,9 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.MoneyManager" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Theme.MoneyManager" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/cobalt_green</item>
+        <item name="colorPrimaryDark">@color/cobalt_green</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>]
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <style name="Theme.MoneyManager" parent="Base.Theme.MoneyManager" />
+    <style name="Theme.MoneyManager.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/cobalt_green</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/main_icon</item>
+        <item name="windowSplashScreenAnimationDuration">2000</item>
+        <item name="postSplashScreenTheme">@style/Theme.MoneyManager</item>
+    </style>
+
+    <style name="ToolbarTitleCenter" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:layout_gravity">center</item>
+    </style>
+
 </resources>

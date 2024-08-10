@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">MoneyManager</string>
+
+    // 01_登録・ログイン選択画面
+    <string name="user_register">ユーザー登録</string>
+    <string name="login">ログイン</string>
+
+    // 02_登録画面
+    <string name="email_address">メールアドレス</string>
+    <string name="password">パスワード</string>
+    <string name="birth_date">生年月日</string>
+    <string name="agree_terms">利用規約に同意します</string>
+    <string name="register">登録</string>
+    <string name="input">入力してください</string>
+    <string name="birthday_input_error">生年月日を入力してください。</string>
+
+    // 04_ログイン画面
+    <string name="email_address_input_error">メールアドレスを入力してください。</string>
+    <string name="password_input_error">パスワードの入力文字数は4文字以上8文字以下です。</string>
+
+    // 05_入出金明細画面
+    <string name="transaction_details_tab">入出金明細。</string>
+    <string name="balance_tab">収支</string>
+
+    // アクションバー
+    <string name="logout_button_text">ログアウト</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
