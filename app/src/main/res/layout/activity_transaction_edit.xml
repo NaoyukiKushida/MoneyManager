@@ -174,26 +174,41 @@
                 android:id="@+id/labelCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
                 android:text="@string/category_text"
-                android:textColor="@color/text_color"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:textColor="@color/text_color"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutAmountInput" />
+                app:layout_constraintTop_toBottomOf="@id/layoutAmountInput"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"/>
 
             <Spinner
                 android:id="@+id/spinnerCategory"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="80dp"
                 android:background="@drawable/spinner_border"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelCategory" />
+                app:layout_constraintTop_toBottomOf="@id/labelCategory"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="80dp"/>
+
+            <TextView
+                android:id="@+id/selected_category_name"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_color"
+                android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="@id/spinnerCategory"
+                app:layout_constraintEnd_toEndOf="@id/spinnerCategory"
+                app:layout_constraintStart_toStartOf="@id/spinnerCategory"
+                app:layout_constraintTop_toTopOf="@id/spinnerCategory"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp" />
 
             <TextView
                 android:id="@+id/labelContent"
