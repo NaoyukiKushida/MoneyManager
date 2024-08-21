@@ -19,8 +19,17 @@
     <string name="password_input_error">パスワードの入力文字数は4文字以上8文字以下です。</string>
 
     // 05_入出金明細画面
-    <string name="transaction_details_tab">入出金明細。</string>
+    <string name="transaction_details_tab">入出金明細</string>
     <string name="balance_tab">収支</string>
+
+    // 06_入出金登録・編集画面
+    <string name="balance_text">収支</string>
+    <string name="expenses_radio_button_text">支出</string>
+    <string name="income_radio_button_text">収入</string>
+    <string name="amount_text">金額</string>
+    <string name="category_text">カテゴリ</string>
+    <string name="content_text">内容</string>
+    <string name="register_button_text">登録</string>
 
     // アクションバー
     <string name="logout_button_text">ログアウト</string>

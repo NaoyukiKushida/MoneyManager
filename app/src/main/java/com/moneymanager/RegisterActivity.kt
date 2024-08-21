@@ -21,7 +21,7 @@ class RegisterActivity : AppCompatActivity() {
 
         val transactionButton = findViewById<Button>(R.id.transactionButton)
         transactionButton.setOnClickListener {
-            val intent = Intent(this@RegisterActivity, TransactionActivity::class.java)
+            val intent = Intent(this@RegisterActivity, DashboardActivity::class.java)
             startActivity(intent)
         }
     }

@@ -2,5 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="cherry_pink">#eb6ea0</color>
+    <color name="text_color">#594639</color>
+    <color name="background_color">#FFF8DC</color>
     <color name="cobalt_green">#40BA8D</color>
+    <color name="selected_color">#eb6ea0</color>
+    <color name="unselected_color">#594639</color>
 </resources>
