@@ -8,4 +8,6 @@
     <color name="cobalt_green">#40BA8D</color>
     <color name="selected_color">#eb6ea0</color>
     <color name="unselected_color">#594639</color>
+    <color name="transaction_list_line_color">#826d5f</color>
+    <color name="tab_unselected_color">#f5d0db</color>
 </resources>

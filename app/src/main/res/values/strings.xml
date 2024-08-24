@@ -28,6 +28,7 @@
     <string name="income_radio_button_text">収入</string>
     <string name="amount_text">金額</string>
     <string name="category_text">カテゴリ</string>
+    <string name="date_text">日付</string>
     <string name="content_text">内容</string>
     <string name="register_button_text">登録</string>
 

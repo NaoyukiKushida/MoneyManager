@@ -3,12 +3,16 @@
 
     <item
         android:id="@+id/navigation_transaction_list"
+        android:enabled="true"
         android:icon="@drawable/ic_list"
-        android:title="入出金明細" />
+        android:title="入出金明細"
+        android:iconTint="@color/bottom_nav_item_color"/>
 
     <item
         android:id="@+id/navigation_balance"
+        android:enabled="true"
         android:icon="@drawable/ic_pie_chart"
-        android:title="収支" />
+        android:title="収支"
+        android:iconTint="@color/bottom_nav_item_color"/>
 
 </menu>

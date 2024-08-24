@@ -1,35 +1,29 @@
-package com.moneymanager
-
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.moneymanager.data.models.TransactionListModel
+import com.moneymanager.databinding.TransactionListItemBinding
 
 class TransactionListAdapter(
-    private val transactionList: List<Transaction>,
-    private val onItemClick: (Transaction) -> Unit
-) : RecyclerView.Adapter<TransactionListAdapter.ViewHolder>() {
+    private val transactionList: List<TransactionListModel>,
+    private val onItemClick: (TransactionListModel) -> Unit
+) : RecyclerView.Adapter<TransactionListAdapter.TransactionViewHolder>() {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        val dateTextView: TextView = itemView.findViewById(R.id.date_text_view) // layoutファイルに合わせてIDを設定
-//        val categoryTextView: TextView = itemView.findViewById(R.id.category_text_view)
-//        val amountTextView: TextView = itemView.findViewById(R.id.amount_text_view)
+    class TransactionViewHolder(val binding: TransactionListItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
+        val viewBinding = TransactionListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return TransactionViewHolder(viewBinding)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.transaction_list_item, parent, false) // layoutファイルに合わせて変更
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val transaction = transactionList[position]
-//        holder.dateTextView.text = transaction.date
-//        holder.categoryTextView.text = transaction.category
-//        holder.amountTextView.text = transaction.amount.toString()
-//
-//        holder.itemView.setOnClickListener { onItemClick(transaction) }
+        holder.binding.textViewDate.text = transaction.date
+        holder.binding.imageViewCategoryIcon.setImageResource(transaction.iconResId)
+        holder.binding.textViewContent.text = transaction.content // 修正箇所
+        holder.binding.textViewAmount.text = transaction.amount.toString()
+
+        holder.itemView.setOnClickListener { onItemClick(transaction) }
     }
 
     override fun getItemCount(): Int = transactionList.size
