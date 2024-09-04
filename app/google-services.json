@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "799290446734",
+    "project_id": "moneymanager-202409",
+    "storage_bucket": "moneymanager-202409.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799290446734:android:a3e733c19fb7122c99cadf",
+        "android_client_info": {
+          "package_name": "com.moneymanager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK-fGZqB4cBP47R_0Yr9pEAneAg4TJH58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

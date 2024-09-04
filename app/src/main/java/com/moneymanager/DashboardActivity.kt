@@ -1,6 +1,8 @@
 package com.moneymanager
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager2.widget.ViewPager2
@@ -19,9 +21,29 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
+        // ログアウト処理を定義
+        val onLogoutClick: () -> Unit = {
+            // ログアウト確認ダイアログを表示
+            AlertDialog.Builder(this@DashboardActivity)
+                .setTitle("ログアウトしますか？")
+                .setMessage("") // 必要に応じてメッセージを追加
+                .setPositiveButton("OK") { dialog, which ->
+                    // ログアウトする
+                    signOut()
+                }
+                .setNegativeButton("キャンセル", null) // キャンセルボタンは何もせずダイアログを閉じる
+                .show()
+        }
+
         // 戻るボタンを表示し、押下時に前の画面に戻る
         val toolbarContainer: ConstraintLayout = findViewById(R.id.toolbar_container)
-        ToolbarUtils.setupToolbar(this, toolbarContainer, "入出金明細", LeftButtonType.LOGOUT)
+        ToolbarUtils.setupToolbar(
+            this,
+            toolbarContainer,
+            "入出金明細",
+            LeftButtonType.LOGOUT,
+            onLogoutClick // ログアウトコールバックを渡す
+        )
 
         viewPager = findViewById(R.id.view_pager)
         bottomNavigationView = findViewById(R.id.bottom_navigation)
@@ -44,6 +66,7 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
 
+
         // ViewPager2のページ変更時にBottomNavigationViewの選択状態を更新
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -56,6 +79,12 @@ class DashboardActivity : AppCompatActivity() {
         viewPager.currentItem = 0
         bottomNavigationView.menu.getItem(0).isChecked = true
 
+    }
 
+    private fun signOut() {
+        val myApp = applicationContext as MyApplication
+        myApp.auth.signOut()
+        startActivity(Intent(this, RegisterOrLoginActivity::class.java))
+        finish()
     }
 }

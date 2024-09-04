@@ -11,5 +11,9 @@
         <item name="colorPrimary">@color/cherry_pink</item>
     </style>
 
+    <style name="MyButton.Disabled" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/button_disabled_color</item>
+    </style>
+
 
 </resources>

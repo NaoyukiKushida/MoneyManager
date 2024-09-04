@@ -13,8 +13,20 @@
     <string name="register">登録</string>
     <string name="input">入力してください</string>
     <string name="birthday_input_error">生年月日を入力してください。</string>
+    <string name="firebaseException.weakPassword">パスワードが脆弱です！！！</string>
+    <string name="firebaseException.invalidMailAddress">ールアドレスが不正です！！！</string>
+    <string name="firebaseException.existedMailAddress">既に登録済みの可能性があります！！！</string>
+
+    // 03_認証メール送信画面
+    <string name="authcodeActivityTitle">メールアドレス確認</string>
+    <string name="afterSendingText">メールアドレスの本人確認が完了していません。\n確認メールを送信しましたので、ご確認いただき、掲載のリンクを押下して登録を完了してください。\nその後、ログイン画面から再度ログインしてください。</string>
+    <string name="failureSendingText">確認メールの送信に失敗しました。再送ボタンを押してください。</string>
+    <string name="afterSendingButtonTitle">ログイン画面へ</string>
+    <string name="resendButtonTitle">再送</string>
 
     // 04_ログイン画面
+    <string name="LoginActivityTitle">ログイン</string>
+    <string name="signInButton">ログイン</string>
     <string name="email_address_input_error">メールアドレスを入力してください。</string>
     <string name="password_input_error">パスワードの入力文字数は4文字以上8文字以下です。</string>
 

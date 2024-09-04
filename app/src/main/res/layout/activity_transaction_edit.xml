@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:fitsSystemWindows="true"
-    tools:context=".RegisterActivity">
+    tools:context=".TransactionEditActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar_container"

@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.realm.kotlin)
+    // Add the Google services Gradle plugin
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -50,7 +53,18 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     // SplashScreen API 用のライブラリを追加
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.firebase.auth.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Realm
+    implementation(libs.library.base)
+    implementation(libs.library.sync)
+    implementation(libs.kotlinx.coroutines.core)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+
 }
