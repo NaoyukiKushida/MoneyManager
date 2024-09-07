@@ -2,4 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="cherry_pink">#eb6ea0</color>
+    <color name="text_color">#594639</color>
+    <color name="background_color">#FFF8DC</color>
+    <color name="cobalt_green">#40BA8D</color>
+    <color name="selected_color">#eb6ea0</color>
+    <color name="unselected_color">#594639</color>
+    <color name="transaction_list_line_color">#826d5f</color>
+    <color name="tab_unselected_color">#f5d0db</color>
+    <color name="button_disabled_color">#c79bbc</color>
+    <color name="checked_tint_color">#eb6ea0</color>  // チェック時の色
+    <color name="unchecked_tint_color">#594639</color> // 非チェック時の色
 </resources>

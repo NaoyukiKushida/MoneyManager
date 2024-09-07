@@ -1,9 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.MoneyManager" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Theme.MoneyManager" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">#eb6ea0</item>
+        <item name="colorPrimaryDark">#eb6ea0</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar</item>
+        <item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen</item>
+
+        <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
     </style>
 
-    <style name="Theme.MoneyManager" parent="Base.Theme.MoneyManager" />
+    <style name="Theme.MoneyManager.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#eb6ea0</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/main_icon</item>
+        <item name="windowSplashScreenAnimationDuration">2000</item>
+        <item name="postSplashScreenTheme">@style/Theme.MoneyManager</item>
+    </style>
+
 </resources>

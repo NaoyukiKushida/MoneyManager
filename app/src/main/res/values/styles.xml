@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="ToolbarTitleCenter" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomNavigationView" parent="">
+        <item name="colorPrimary">@color/cherry_pink</item>
+    </style>
+
+    <style name="MyButton.Disabled" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/button_disabled_color</item>
+    </style>
+
+
+</resources>
