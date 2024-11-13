@@ -21,7 +21,7 @@ class TransactionListAdapter(
         val transaction = transactionList[position]
         if (transaction.date.isNotEmpty()) {
             holder.binding.textViewDate.visibility = View.VISIBLE
-            holder.binding.textViewDate.text = transaction.date as CharSequence
+            holder.binding.textViewDate.text = transaction.date
         } else {
             holder.binding.textViewDate.visibility = View.GONE
         }

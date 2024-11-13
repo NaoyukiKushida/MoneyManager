@@ -87,8 +87,11 @@ class TransactionListFragment : Fragment() {
             // suspend 関数 getTransaction をコルーチン内で呼び出す
             transactionsDatas = TransactionRepository.getTransaction(realm)
 
+            // 日付の昇順でソート
+            val sortedTransactions = transactionsDatas.sortedBy { it.date }
+
             // 日付でグループ化し、日付ごとにリストを作成
-            val groupedTransactions = transactionsDatas.groupBy {
+            val groupedTransactions = sortedTransactions.groupBy {
                 val dateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
                 val date = try {
                     it.date?.let { date -> dateFormat.parse(date) }
