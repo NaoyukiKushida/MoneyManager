@@ -75,6 +75,8 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(mailAddressText, passwordText)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    // ログイン成功時にRealmデータベースを作成
+                    (application as MyApplication).createRealm()
                     goToAuthcodeActivity()
                 } else {
                     // セキュリティ上Exceptionの情報は隠蔽する

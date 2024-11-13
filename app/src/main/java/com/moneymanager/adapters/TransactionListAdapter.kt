@@ -1,4 +1,5 @@
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.moneymanager.data.models.TransactionListModel
@@ -18,10 +19,15 @@ class TransactionListAdapter(
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val transaction = transactionList[position]
-        holder.binding.textViewDate.text = transaction.date
+        if (transaction.date.isNotEmpty()) {
+            holder.binding.textViewDate.visibility = View.VISIBLE
+            holder.binding.textViewDate.text = transaction.date as CharSequence
+        } else {
+            holder.binding.textViewDate.visibility = View.GONE
+        }
         holder.binding.imageViewCategoryIcon.setImageResource(transaction.iconResId)
-        holder.binding.textViewContent.text = transaction.content // 修正箇所
-        holder.binding.textViewAmount.text = transaction.amount.toString()
+        holder.binding.textViewContent.text = transaction.content
+        holder.binding.textViewAmount.text = "${transaction.amount}円"
 
         holder.itemView.setOnClickListener { onItemClick(transaction) }
     }

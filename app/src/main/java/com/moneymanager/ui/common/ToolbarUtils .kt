@@ -52,6 +52,15 @@ object ToolbarUtils {
         }
     }
 
+
+    /**
+     * ツールバーのタイトルを更新します。
+     */
+    fun updateToolbarTitle(toolbarContainer: ConstraintLayout, title: String) {
+        val toolbar = toolbarContainer.findViewById<TextView>(R.id.title)
+        toolbar.text = title
+    }
+
     /**
      * 指定された ImageView をログアウトボタンとして設定します。
      *

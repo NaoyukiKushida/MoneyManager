@@ -12,22 +12,33 @@ import android.widget.AdapterView
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.lifecycleScope
+import com.moneymanager.entity.TransactionEntity
 import com.moneymanager.adapters.CategorySpinnerAdapter
-import com.moneymanager.data.models.TransactionEditModel
-import com.moneymanager.data.models.TransactionType
+import com.moneymanager.data.models.repository.TransactionData
+import com.moneymanager.data.models.ui.TransactionEditModel
+import com.moneymanager.data.models.ui.BalanceType
+import com.moneymanager.data.models.ui.Category
 import com.moneymanager.databinding.ActivityTransactionEditBinding
 import com.moneymanager.repositories.CategoryRepository
+import com.moneymanager.repositories.TransactionRepository
 import com.moneymanager.ui.common.CustomDatePicker
 import com.moneymanager.ui.common.LeftButtonType
 import com.moneymanager.ui.common.ToolbarUtils
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
+import kotlinx.coroutines.launch
+import java.util.UUID
 
 class TransactionEditActivity : AppCompatActivity() {
 
     private lateinit var viewBinding: ActivityTransactionEditBinding
+    private val config = RealmConfiguration.create(schema = setOf(TransactionEntity::class))
+    private val realm: Realm = Realm.open(config)
 
     // TransactionModelの初期化
     private var transactionModel = TransactionEditModel() // デフォルトコンストラクタを使用
-
+    // CustomDatePickerの初期化
     private lateinit var datePicker: CustomDatePicker
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,13 +48,17 @@ class TransactionEditActivity : AppCompatActivity() {
 
         // 戻るボタンを表示し、押下時に前の画面に戻る
         val toolbarContainer: ConstraintLayout = findViewById(R.id.toolbar_container)
-        ToolbarUtils.setupToolbar(this, toolbarContainer, "登録・編集", LeftButtonType.BACK)
+        ToolbarUtils.setupToolbar(this, toolbarContainer, "登録", LeftButtonType.BACK)
 
         // DatePickerの初期化
-        datePicker = CustomDatePicker(this, viewBinding.textViewDate)
+        datePicker = CustomDatePicker(this, viewBinding.textViewDate) { selectedDate ->
+            // transactionModel の date を更新
+            transactionModel = transactionModel.copy(date = selectedDate)
+        }
 
         // DatePicker に初期日付を設定
-        datePicker.setDate(transactionModel.date)
+        transactionModel.date?.let { datePicker.setDate(it) }
+        viewBinding.textViewDate.text = transactionModel.date
 
         // カテゴリスピナーの設定
         val categories = CategoryRepository.getCategories()
@@ -56,45 +71,64 @@ class TransactionEditActivity : AppCompatActivity() {
         viewBinding.spinnerCategory.setSelection(defaultCategoryPosition)
 
         // 編集モードの場合、データを表示
-//        val transactionId = intent.getIntExtra("transactionId", 0)
-//
-//        if (transactionId != 0) {
-//            // 編集モード
-//            val transaction = getTransactionById(transactionId) // データベースなどからデータを取得
-//            // transaction を TransactionEditModel に変換して UI に表示
-//        } else {
-//            // 新規登録モード
-//            // TransactionEditModel のデフォルト値を UI に表示
-//        }
-
+        val transactionId = intent.getStringExtra("transactionId")
+        if (transactionId != null) {
+            ToolbarUtils.setupToolbar(
+                this,
+                toolbarContainer,
+                "編集",
+                LeftButtonType.BACK,
+                null,
+                rightButtonDrawableId = R.drawable.ic_delete,
+                onRightButtonClick = {
+                    lifecycleScope.launch {
+                        TransactionRepository.deleteTransactions(realm, transactionId)
+                        finish()
+                    }
+                }
+            )
+            loadTransactionForEdit (transactionId)
+            viewBinding.buttonRegister.text = getString(R.string.modify_button_text)
+        }
 
         // 各種リスナーの設定
+        setupListeners()
+
+        // 登録ボタン
+        viewBinding.buttonRegister.setOnClickListener {
+            registerTransaction()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        realm.close()
+    }
+
+    private fun setupListeners() {
         // 入出金タイプラジオボタン
         viewBinding.radioGroupType.setOnCheckedChangeListener { _, checkedId ->
-            transactionModel = transactionModel.copy(
-                type = if (checkedId == R.id.radioButtonExpense) TransactionType.EXPENSE else TransactionType.INCOME
-            )
+            updateBalanceType(checkedId == R.id.radioButtonExpense)
         }
 
         // 入出金金額テキストフィールド
         viewBinding.editTextAmount.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
+                hideKeyboard(v)
                 val inputText = viewBinding.editTextAmount.text.toString()
                 val amount = inputText.toIntOrNull() ?: 0
                 viewBinding.editTextAmount.setText(amount.toString())
                 viewBinding.editTextAmount.setSelection(amount.toString().length)
 
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(v.windowToken, 0)
+                // transactionModelのamountを更新
+                transactionModel = transactionModel.copy(amount = amount)
             }
         }
 
         // カテゴリースピナー
         viewBinding.spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedCategory = categories[position]
-                transactionModel = transactionModel.copy(category = selectedCategory)
-                viewBinding.selectedCategoryName.text = selectedCategory.name
+                updateCategory(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -114,21 +148,94 @@ class TransactionEditActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                transactionModel = transactionModel.copy(content = s.toString())
+                updateContent(s.toString())
             }
         })
+    }
 
-        // 登録ボタン
-        viewBinding.buttonRegister.setOnClickListener {
-            // データを保存して終了
-            // データベースなどに保存する処理を追加
+    private fun updateBalanceType(isExpense: Boolean) {
+        transactionModel = transactionModel.copy(
+            balanceType = if (isExpense) BalanceType.EXPENSE else BalanceType.INCOME
+        )
+    }
 
-            finish()
+    private fun updateCategory(position: Int) {
+        val categories = CategoryRepository.getCategories()
+        val selectedCategory = categories[position]
+        transactionModel = transactionModel.copy(category = selectedCategory)
+        viewBinding.selectedCategoryName.text = selectedCategory.name
+    }
+
+    private fun updateContent(content: String) {
+        transactionModel = transactionModel.copy(content = content)
+    }
+
+    private fun registerTransaction() {
+        lifecycleScope.launch {
+            // 新規登録の場合、transactionId を UUID で生成
+            val transactionId = transactionModel.transactionId.ifBlank { UUID.randomUUID().toString() }
+
+            val transactionData = TransactionData(
+                transactionId = transactionId, // 生成したIDまたは既存のIDを設定
+                balanceType = if (transactionModel.balanceType == BalanceType.EXPENSE) 0 else 1,
+                category = transactionModel.category.id,
+                date = transactionModel.date,
+                amount = transactionModel.amount,
+                content = transactionModel.content
+            )
+
+            TransactionRepository.saveTransaction(realm, transactionData)
+        }
+
+        finish()
+    }
+
+    private fun loadTransactionForEdit(transactionId: String) {
+        lifecycleScope.launch {
+            // transactionId に対応する TransactionEntityのデータを取得
+            val transactionEntity = realm.writeBlocking {
+                this.query(TransactionEntity::class, "transactionId == $0", transactionId).first().find()
+            }
+
+            if (transactionEntity != null) {
+                val transactionData = TransactionRepository.fromEntityToData(transactionEntity)
+                transactionModel = TransactionEditModel(
+                    transactionId = transactionData.transactionId,
+                    balanceType = if (transactionData.balanceType == 0) BalanceType.EXPENSE else BalanceType.INCOME,
+                    category = CategoryRepository.getCategories().find { it.id == transactionData.category } ?: Category(0, ""),
+                    date = transactionData.date,
+                    amount = transactionData.amount,
+                    content = transactionData.content
+                )
+
+                // UIに値を設定
+                updateUIWithTransactionModel()
+            } else {
+                // エラー処理: transactionIdに対応するデータが見つからない場合
+            }
         }
     }
 
+    private fun updateUIWithTransactionModel() {
+        // transactionModelの値に基づいてUIを更新
+        viewBinding.editTextAmount.setText(transactionModel.amount.toString())
+        viewBinding.editTextContent.setText(transactionModel.content)
+        viewBinding.textViewDate.text = (transactionModel.date)
 
-        override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        val categories = CategoryRepository.getCategories()
+        val categoryPosition = categories.indexOfFirst { it.id == transactionModel.category.id }
+        viewBinding.spinnerCategory.setSelection(categoryPosition)
+
+        val balanceTypeId = if (transactionModel.balanceType == BalanceType.EXPENSE) R.id.radioButtonExpense else R.id.radioButtonIncome
+        viewBinding.radioGroupType.check(balanceTypeId)
+    }
+
+    private fun hideKeyboard(view: View) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
             if (ev?.action == MotionEvent.ACTION_DOWN) {
                 val v = currentFocus
                 if (v is EditText) {
@@ -144,9 +251,4 @@ class TransactionEditActivity : AppCompatActivity() {
             return super.dispatchTouchEvent(ev)
         }
 
-//    private fun getTransactionById(transactionId: Int): Transaction? {
-        // データベースなどから transactionId に対応する Transaction を取得
-        // ここでは仮の実装
-//        return transactionList.find { it.transactionId == transactionId }
-//    }
 }

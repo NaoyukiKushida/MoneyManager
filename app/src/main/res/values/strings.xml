@@ -42,7 +42,8 @@
     <string name="category_text">カテゴリ</string>
     <string name="date_text">日付</string>
     <string name="content_text">内容</string>
-    <string name="register_button_text">登録</string>
+    <string name="register_button_text">登録する</string>
+    <string name="modify_button_text">修正する</string>
 
     // アクションバー
     <string name="logout_button_text">ログアウト</string>

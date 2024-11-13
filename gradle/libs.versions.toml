@@ -14,11 +14,14 @@ constraintlayout = "2.1.4"
 annotation = "1.8.2"
 lifecycleLivedataKtx = "2.8.4"
 lifecycleViewmodelKtx = "2.8.4"
+pieChart = "0.7.0"
 realmKotlin = "1.16.0"
 library-base = "1.16.0"
 library-sync = "1.16.0"
 kotlinxCoroutines = "1.7.0"
 firebaseAuthKtx = "23.0.0"
+firebaseDatabaseKtx = "21.0.0"
+kspVersion = "1.9.22-1.0.17"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -39,8 +42,11 @@ library-base= { group = "io.realm.kotlin", name = "library-base", version.ref = 
 library-sync = { group = "io.realm.kotlin",name = "library-sync", version.ref = "library-sync" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
+firebase-database-ktx = { group = "com.google.firebase", name = "firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
+pie-chart = { module = "ir.mahozad.android:pie-chart", version.ref = "pieChart" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 realm-kotlin = { id = "io.realm.kotlin", version.ref = "realmKotlin" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }

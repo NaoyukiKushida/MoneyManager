@@ -17,16 +17,20 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var bottomNavigationView: BottomNavigationView
 
+    private lateinit var toolbarContainer: ConstraintLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
+        toolbarContainer = findViewById(R.id.toolbar_container)
+
         // ログアウト処理を定義
         val onLogoutClick: () -> Unit = {
             // ログアウト確認ダイアログを表示
-            AlertDialog.Builder(this@DashboardActivity)
-                .setTitle("ログアウトしますか？")
-                .setMessage("") // 必要に応じてメッセージを追加
+            AlertDialog.Builder(this)
+                .setTitle("ログアウト")
+                .setMessage("ログアウトしますか？") // 必要に応じてメッセージを追加
                 .setPositiveButton("OK") { dialog, which ->
                     // ログアウトする
                     signOut()
@@ -36,7 +40,6 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         // 戻るボタンを表示し、押下時に前の画面に戻る
-        val toolbarContainer: ConstraintLayout = findViewById(R.id.toolbar_container)
         ToolbarUtils.setupToolbar(
             this,
             toolbarContainer,
@@ -72,6 +75,14 @@ class DashboardActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 bottomNavigationView.menu.getItem(position).isChecked = true
+
+                // ページに対応するタイトルを設定
+                val title = when (position) {
+                    0 -> "入出金明細"
+                    1 -> "収支"
+                    else -> ""
+                }
+                ToolbarUtils.updateToolbarTitle(toolbarContainer, title)
             }
         })
 
@@ -84,6 +95,8 @@ class DashboardActivity : AppCompatActivity() {
     private fun signOut() {
         val myApp = applicationContext as MyApplication
         myApp.auth.signOut()
+        // ログアウト時にRealmデータベースを削除
+//        (application as MyApplication).deleteRealm()
         startActivity(Intent(this, RegisterOrLoginActivity::class.java))
         finish()
     }
