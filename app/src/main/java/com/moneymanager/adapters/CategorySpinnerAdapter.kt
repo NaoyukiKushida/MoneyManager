@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import com.moneymanager.data.models.Category
+import com.moneymanager.data.models.ui.Category
 
 class CategorySpinnerAdapter(context: Context, categories: List<Category>) :
     ArrayAdapter<Category>(context, android.R.layout.simple_spinner_item, categories) {

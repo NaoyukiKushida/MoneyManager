@@ -1,6 +1,6 @@
 package com.moneymanager.repositories
 
-import com.moneymanager.data.models.Category
+import com.moneymanager.data.models.ui.Category
 
 object CategoryRepository {
     private val categories = listOf(
@@ -17,5 +17,9 @@ object CategoryRepository {
 
     fun getCategories(): List<Category> {
         return categories
+    }
+
+    fun getCategoryById(id: Int): Category? {
+        return categories.find { it.id == id }
     }
 }

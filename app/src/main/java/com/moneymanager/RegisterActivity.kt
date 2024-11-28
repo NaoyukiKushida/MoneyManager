@@ -52,7 +52,9 @@ class RegisterActivity : AppCompatActivity() {
         ToolbarUtils.setupToolbar(this, toolbarContainer, "新規ユーザー登録", LeftButtonType.BACK)
 
         // DatePickerの初期化
-        datePicker = CustomDatePicker(this, viewBinding.textViewDate)
+        datePicker = CustomDatePicker(this, viewBinding.textViewDate) {
+            // 特に何もしない
+        }
 
         // 日付ピッカー
         viewBinding.textViewDate.setOnClickListener {

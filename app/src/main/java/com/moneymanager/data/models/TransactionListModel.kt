@@ -1,10 +1,9 @@
 package com.moneymanager.data.models
 
-
 data class TransactionListModel(
-    val transactionId: Int, // 取引IDを追加
-    val date: String,
-    val content: String,
-    val amount: Int,
-    val iconResId: Int
+    val transactionId: String = "",
+    val date: String = "",
+    val content: String = "",
+    val amount: Int = 0,
+    val iconResId: Int = 0
 )
